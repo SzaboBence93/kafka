@@ -1,0 +1,40 @@
+server:
+  servlet.context-path: /
+  port: 8080
+
+logging:
+  level:
+    ROOT: info
+    com.nitrowise.basesrvr: debug
+  path: /var/log/${spring.application.name}
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: nitrowise-base-server
+  jpa:
+#    database: mysql
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  session:
+    store-type: none
+#  datasource:
+#    url: jdbc:mysql://172.11.22.333:4444/ize?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Europe/Budapest
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: sa
+#    password: Sa123Sa123
+#    minimum-idle: 2
+#    maximum-pool-size: 8
+#    idle-timeout: 300000
+#    max-lifetime: 600000
+#    auto-commit: false
+#    catalog: CATALOG
+spring.datasource.url: jdbc:h2:mem:testdb
+spring.datasource.driverClassName: org.h2.Driver
+spring.datasource.username: sa
+spring.datasource.password: password
+spring.jpa.database-platform: org.hibernate.dialect.H2Dialect

@@ -1,0 +1,105 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.6.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+plugins {
+    id 'net.ltgt.apt' version '0.18'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.nitrowise'
+version = project.version
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR1"
+    }
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+
+    // hibernate dependencies
+    compile 'org.hibernate:hibernate-core'
+    compile 'org.hibernate:hibernate-entitymanager'
+    compile 'org.hibernate:hibernate-java8'
+
+    // fasterxml dependencies
+    compile 'com.fasterxml.jackson.core:jackson-core'
+    compile 'com.fasterxml.jackson.core:jackson-databind'
+    compile 'com.fasterxml.jackson.core:jackson-annotations'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
+
+    compile 'org.springframework.kafka:spring-kafka:2.2.7.RELEASE'
+
+    // common
+    compile 'org.apache.commons:commons-lang3'
+
+    runtime 'mysql:mysql-connector-java'
+    compile 'com.h2database:h2:1.4.199'
+    compile "com.zaxxer:HikariCP:3.3.1"
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    
+    compile 'io.springfox:springfox-swagger2:2.9.2'
+    compile 'io.springfox:springfox-swagger-ui:2.9.2'
+    compile 'io.springfox:springfox-bean-validators:2.9.2'
+
+    compile "org.mapstruct:mapstruct-jdk8:1.2.0.Final"
+    annotationProcessor "org.mapstruct:mapstruct-processor:1.2.0.Final"
+    
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+
+    // bean validation
+    compile 'org.hibernate.validator:hibernate-validator'
+    compile 'javax.validation:validation-api'
+
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testCompile 'org.assertj:assertj-core:3.4.1'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+
+}
+
+springBoot {
+    buildInfo()
+}
+
+bootJar {
+    archiveName 'contract-rest-client.jar'
+    launchScript()
+}
+
+bootRun {
+    systemProperties = System.properties
+}
